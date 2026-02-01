@@ -3,7 +3,7 @@
   "name": "ashby-job-scraper",
   "title": "Ashby Job Scraper",
   "description": "Fast and reliable scraper for Ashby job boards. Extract job listings with optional team/department filtering, date ranges, and result limits. API-based (no browser required).",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "meta": {
     "templateId": "node-basic"
   },
