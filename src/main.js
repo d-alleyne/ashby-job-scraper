@@ -155,6 +155,7 @@ function isRemoteJob(locationName, secondaryLocations = []) {
  */
 function formatJobOutput(briefJob, detailJob, companyName) {
     const postingUrl = `https://jobs.ashbyhq.com/${companyName}/${briefJob.id}`;
+    const applyUrl = `${postingUrl}/application`;
     
     // Collect all locations
     const locations = [briefJob.locationName];
@@ -168,16 +169,14 @@ function formatJobOutput(briefJob, detailJob, companyName) {
 
     return {
         id: briefJob.id,
-        company: companyName,
+        type: briefJob.employmentType || 'Full-time',
         title: briefJob.title,
-        location: briefJob.locationName,
-        locations,
-        isRemote: isRemoteJob(briefJob.locationName, briefJob.secondaryLocations),
-        employmentType: briefJob.employmentType,
-        teams: detailJob.teamNames || [],
-        compensation: briefJob.compensationTierSummary || null,
         description: detailJob.descriptionHtml || '',
+        locations,
+        department: detailJob.teamNames?.[0] || 'Unknown', // Primary team as department
+        companyName: companyName,
         postingUrl,
+        applyUrl,
         publishedAt: detailJob.publishedDate || null,
     };
 }
