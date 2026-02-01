@@ -7,7 +7,7 @@
   "meta": {
     "templateId": "node-basic"
   },
-  "input": "./.actor/INPUT_SCHEMA.json",
+  "input": "INPUT_SCHEMA.json",
   "storages": {
     "dataset": {
       "actorSpecification": 1,
