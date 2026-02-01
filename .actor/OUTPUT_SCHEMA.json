@@ -1,0 +1,81 @@
+{
+  "title": "Ashby Job Posting",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "id": {
+      "title": "Job ID",
+      "type": "string",
+      "description": "Unique Ashby job posting ID (UUID)",
+      "example": "1c2921b8-f532-434b-bd41-d28a2a820f8a"
+    },
+    "type": {
+      "title": "Employment Type",
+      "type": "string",
+      "description": "Type of employment (e.g., Full-time, Part-time, Contract)",
+      "example": "Full-time"
+    },
+    "title": {
+      "title": "Job Title",
+      "type": "string",
+      "description": "Position title",
+      "example": "Senior Software Engineer"
+    },
+    "description": {
+      "title": "Job Description",
+      "type": "string",
+      "description": "Full job description (HTML format)",
+      "example": "<p>We're looking for a Senior Software Engineer...</p>"
+    },
+    "locations": {
+      "title": "Locations",
+      "type": "array",
+      "description": "All job locations (primary + secondary)",
+      "items": {
+        "type": "string"
+      },
+      "example": ["Remote - North America", "San Francisco, CA"]
+    },
+    "department": {
+      "title": "Department",
+      "type": "string",
+      "description": "Primary team or department name",
+      "example": "Engineering"
+    },
+    "companyName": {
+      "title": "Company",
+      "type": "string",
+      "description": "Company identifier (slug from URL)",
+      "example": "ashby"
+    },
+    "postingUrl": {
+      "title": "Job Posting URL",
+      "type": "string",
+      "description": "Direct link to the job posting",
+      "example": "https://jobs.ashbyhq.com/ashby/1c2921b8-f532-434b-bd41-d28a2a820f8a"
+    },
+    "applyUrl": {
+      "title": "Application URL",
+      "type": "string",
+      "description": "Direct link to the application form",
+      "example": "https://jobs.ashbyhq.com/ashby/1c2921b8-f532-434b-bd41-d28a2a820f8a/application"
+    },
+    "publishedAt": {
+      "title": "Published Date",
+      "type": "string",
+      "description": "Job publication date (YYYY-MM-DD format)",
+      "example": "2025-11-15"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "title",
+    "description",
+    "locations",
+    "department",
+    "companyName",
+    "postingUrl",
+    "applyUrl"
+  ]
+}

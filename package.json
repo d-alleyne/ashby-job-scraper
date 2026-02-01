@@ -1,6 +1,6 @@
 {
   "name": "ashby-job-scraper",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Scrape job postings from Ashby job boards with optional team/department filtering",
   "main": "src/main.js",
   "type": "module",

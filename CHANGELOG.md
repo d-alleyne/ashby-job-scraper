@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 2026-02-01
+
+### Added
+- OUTPUT_SCHEMA.json defining the output format for dataset results
+- Schema documentation for all output fields with examples
+
 ## [1.1.1] - 2026-02-01
 
 ### Changed
