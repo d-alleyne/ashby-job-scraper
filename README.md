@@ -65,10 +65,12 @@ Team IDs are the department/team filters on Ashby job boards:
 4. Look for the `ApiJobBoardWithTeams` GraphQL request
 5. In the response, find the `teams` array with IDs and names
 
-**Example teams for Ashby:**
+**Example teams for Ashby (your results will vary by company):**
 - Engineering: `2c32d70f-d7cb-4a06-bd87-048084e3eb10`
 - Design: `44367da2-a8d8-4fe3-a46f-04ddca4b37a4`
 - Customer Success: `a23149a4-6817-4900-942c-6545eab16818`
+- Marketing: `b67880f0-4e2f-4352-8f74-9e49582a0dbf`
+- Sales: `bb71410b-bb42-46c8-beb7-1f0f91547f3e`
 
 ## Input Parameters
 
@@ -164,7 +166,7 @@ Scrape recent jobs for regular updates (e.g., bi-weekly runs):
 }
 ```
 
-### 2. Engineering Jobs Only
+### 2. Team/Department Filtering
 Filter for specific teams to reduce costs and get only relevant jobs:
 
 ```json
@@ -191,6 +193,8 @@ Filter for specific teams to reduce costs and get only relevant jobs:
   ]
 }
 ```
+
+**Use cases:** Filter for Engineering, Sales, Marketing, Customer Success, or any other team based on your needs.
 
 ### 3. One-Time Full Scrape
 Get all available jobs from a company (no date filter):
