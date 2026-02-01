@@ -40,18 +40,20 @@ Each URL can have its own filters:
         "2c32d70f-d7cb-4a06-bd87-048084e3eb10",
         "44367da2-a8d8-4fe3-a46f-04ddca4b37a4"
       ],
-      "maxJobs": 50
+      "maxJobs": 50,
+      "daysBack": 14
     },
     {
       "url": "https://jobs.ashbyhq.com/revenuecat",
       "teams": ["8dcde971-b533-404f-8e67-e94e5f89b590"],
-      "maxJobs": 50
+      "maxJobs": 50,
+      "daysBack": 7
     }
   ]
 }
 ```
 
-**💡 Tip:** The `daysBack` filter is applied **after** fetching jobs, so you pay for all jobs even if most are filtered out. For cost efficiency, use team filters and let your downstream processing handle date filtering.
+**💡 Tip:** With pay-per-result pricing, you only pay for jobs that make it to the final dataset. Use `daysBack` to filter out old jobs and keep your data fresh.
 
 ### Finding Team IDs
 
@@ -95,7 +97,7 @@ Array of Ashby job board URLs or configuration objects.
 
 - **`teams`** (optional) - Array of team IDs to filter by. Only jobs from these teams will be included. **Recommended** for cost efficiency.
 - **`maxJobs`** (optional) - Maximum number of jobs to fetch for this board (applied before fetching details).
-- **`daysBack`** (optional) - Only include jobs published within the last N days. ⚠️ **Not recommended** - filters AFTER fetching, so you still pay for all jobs.
+- **`daysBack`** (optional) - Only include jobs published within the last N days. Useful for incremental scraping (e.g., bi-weekly runs).
 
 ## Output Format
 
@@ -137,20 +139,32 @@ Each job posting includes:
 
 ## Use Cases
 
-### 1. Job Aggregation
-Scrape jobs from multiple companies to build a job board:
+### 1. Incremental Scraping (Recommended)
+Scrape recent jobs for regular updates (e.g., bi-weekly runs):
 
 ```json
 {
   "urls": [
-    { "url": "https://jobs.ashbyhq.com/buffer", "maxJobs": 100 },
-    { "url": "https://jobs.ashbyhq.com/zapier", "maxJobs": 100 },
-    { "url": "https://jobs.ashbyhq.com/revenuecat", "maxJobs": 100 }
+    { 
+      "url": "https://jobs.ashbyhq.com/buffer", 
+      "maxJobs": 100,
+      "daysBack": 14
+    },
+    { 
+      "url": "https://jobs.ashbyhq.com/zapier", 
+      "maxJobs": 100,
+      "daysBack": 14
+    },
+    { 
+      "url": "https://jobs.ashbyhq.com/revenuecat", 
+      "maxJobs": 100,
+      "daysBack": 14
+    }
   ]
 }
 ```
 
-### 2. Engineering Jobs Only (Recommended)
+### 2. Engineering Jobs Only
 Filter for specific teams to reduce costs and get only relevant jobs:
 
 ```json
@@ -162,7 +176,8 @@ Filter for specific teams to reduce costs and get only relevant jobs:
         "2c32d70f-d7cb-4a06-bd87-048084e3eb10",
         "44367da2-a8d8-4fe3-a46f-04ddca4b37a4"
       ],
-      "maxJobs": 100
+      "maxJobs": 100,
+      "daysBack": 7
     },
     {
       "url": "https://jobs.ashbyhq.com/zapier",
@@ -170,20 +185,21 @@ Filter for specific teams to reduce costs and get only relevant jobs:
         "cbb2c602-5494-4a7b-914c-8ad0a77fdc11",
         "9276c6c4-a022-4990-9cf6-5c6ace283aff"
       ],
-      "maxJobs": 100
+      "maxJobs": 100,
+      "daysBack": 7
     }
   ]
 }
 ```
 
-### 3. Result Limits
-Control costs by limiting jobs per company:
+### 3. One-Time Full Scrape
+Get all available jobs from a company (no date filter):
 
 ```json
 {
   "urls": [
-    { "url": "https://jobs.ashbyhq.com/buffer", "maxJobs": 50 },
-    { "url": "https://jobs.ashbyhq.com/kit", "maxJobs": 20 }
+    { "url": "https://jobs.ashbyhq.com/buffer", "maxJobs": 200 },
+    { "url": "https://jobs.ashbyhq.com/kit", "maxJobs": 100 }
   ]
 }
 ```

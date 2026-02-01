@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2026-02-01
+
+### Changed
+- README now recommends `daysBack` for incremental scraping (pay-per-result pricing means filtered jobs don't count)
+- Updated all examples to include `daysBack` parameter
+- Reordered use cases to emphasize incremental scraping as the primary pattern
+
+### Fixed
+- Clarified that pay-per-result pricing only charges for final dataset results, not intermediate API calls
+- Removed misleading warnings about `daysBack` inefficiency
+
 ## [1.1.0] - 2026-02-01
 
 ### Changed
