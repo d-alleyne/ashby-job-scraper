@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 2026-02-01
+
+### Fixed
+- Normalize employment type from Ashby format ("FullTime") to standard format ("Full-time") to match expected output schema
+
 ## [1.1.2] - 2026-02-01
 
 ### Added

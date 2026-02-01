@@ -147,6 +147,22 @@ function isRemoteJob(locationName, secondaryLocations = []) {
 }
 
 /**
+ * Normalize employment type from Ashby format to standard format
+ * @param {string} employmentType - Employment type from Ashby (e.g., "FullTime", "PartTime")
+ * @returns {string} Normalized employment type (e.g., "Full-time", "Part-time")
+ */
+function normalizeEmploymentType(employmentType) {
+    const typeMap = {
+        'FullTime': 'Full-time',
+        'PartTime': 'Part-time',
+        'Contract': 'Contract',
+        'Internship': 'Internship',
+        'Temporary': 'Temporary',
+    };
+    return typeMap[employmentType] || 'Full-time';
+}
+
+/**
  * Process job posting and return standardized output
  * @param {Object} briefJob - Job brief from initial API call
  * @param {Object} detailJob - Detailed job data from second API call
@@ -169,7 +185,7 @@ function formatJobOutput(briefJob, detailJob, companyName) {
 
     return {
         id: briefJob.id,
-        type: briefJob.employmentType || 'Full-time',
+        type: normalizeEmploymentType(briefJob.employmentType),
         title: briefJob.title,
         description: detailJob.descriptionHtml || '',
         locations,
