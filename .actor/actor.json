@@ -1,0 +1,77 @@
+{
+  "actorSpecification": 1,
+  "name": "ashby-job-scraper",
+  "title": "Ashby Job Scraper",
+  "description": "Fast and reliable scraper for Ashby job boards. Extract job listings with optional team/department filtering, date ranges, and result limits. API-based (no browser required).",
+  "version": "1.0.0",
+  "meta": {
+    "templateId": "node-basic"
+  },
+  "input": "./.actor/INPUT_SCHEMA.json",
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "title": "Ashby Jobs Dataset",
+      "views": {
+        "overview": {
+          "title": "Overview",
+          "transformation": {
+            "fields": [
+              "company",
+              "title",
+              "teams",
+              "location",
+              "isRemote",
+              "employmentType",
+              "compensation",
+              "publishedAt",
+              "postingUrl"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "company": {
+                "label": "Company",
+                "format": "text"
+              },
+              "title": {
+                "label": "Job Title",
+                "format": "text"
+              },
+              "teams": {
+                "label": "Teams",
+                "format": "array"
+              },
+              "location": {
+                "label": "Location",
+                "format": "text"
+              },
+              "isRemote": {
+                "label": "Remote",
+                "format": "boolean"
+              },
+              "employmentType": {
+                "label": "Type",
+                "format": "text"
+              },
+              "compensation": {
+                "label": "Compensation",
+                "format": "text"
+              },
+              "publishedAt": {
+                "label": "Published",
+                "format": "date"
+              },
+              "postingUrl": {
+                "label": "URL",
+                "format": "link"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "dockerfile": "./Dockerfile"
+}

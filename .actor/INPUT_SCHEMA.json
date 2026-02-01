@@ -1,0 +1,24 @@
+{
+  "title": "Ashby Job Scraper Input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "urls": {
+      "title": "Job Board URLs",
+      "type": "array",
+      "description": "Ashby job board URLs to scrape. Add simple URLs or configure per-board filters (teams, maxJobs, daysBack) in the JSON tab.",
+      "editor": "requestListSources",
+      "example": [
+        {
+          "url": "https://jobs.ashbyhq.com/buffer"
+        }
+      ],
+      "prefill": [
+        {
+          "url": "https://jobs.ashbyhq.com/buffer"
+        }
+      ]
+    }
+  },
+  "required": ["urls"]
+}
