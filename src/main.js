@@ -238,6 +238,11 @@ await Actor.main(async () => {
             // Fetch all jobs + teams
             const jobBoard = await fetchJobBoard(companyName);
             
+            if (!jobBoard || !jobBoard.jobPostings) {
+                console.log(`   ⚠️  No jobs found (company may have no active postings)`);
+                continue;
+            }
+            
             let filteredJobs = jobBoard.jobPostings;
 
             // Apply team filter
