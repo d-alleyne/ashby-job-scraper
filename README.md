@@ -237,7 +237,7 @@ Example costs:
 
 Looking for other ATS platforms? Check out:
 
-- **[Greenhouse Job Scraper](https://apify.com/dalleyne/greenhouse-job-scraper)** - Scrape Greenhouse job boards (Automattic, GitLab, Shopify, etc.) with department filtering
+- **[Greenhouse Job Scraper](https://apify.com/dalleyne/greenhouse-job-scraper)** - Scrape Greenhouse job boards (Automattic, GitLab, Speechify, etc.) with department filtering
 
 ## Support
 
