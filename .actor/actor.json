@@ -4,9 +4,12 @@
   "title": "Ashby Job Scraper",
   "description": "Fast and reliable scraper for Ashby job boards. Extract job listings with optional team/department filtering, date ranges, and result limits. API-based (no browser required).",
   "version": "1.1.3",
+  "license": "MIT",
   "meta": {
     "templateId": "node-basic"
   },
+  "dockerfile": "./Dockerfile",
+  "readme": "./README.md",
   "input": "INPUT_SCHEMA.json",
   "output": "OUTPUT_SCHEMA.json",
   "storages": {
@@ -73,6 +76,5 @@
         }
       }
     }
-  },
-  "dockerfile": "./Dockerfile"
+  }
 }
