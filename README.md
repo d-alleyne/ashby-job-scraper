@@ -108,16 +108,14 @@ Each job posting includes:
 ```json
 {
   "id": "1c2921b8-f532-434b-bd41-d28a2a820f8a",
-  "company": "ashby",
+  "type": "Full-time",
   "title": "Senior Software Engineer",
-  "location": "Remote - North America",
-  "locations": ["Remote - North America"],
-  "isRemote": true,
-  "employmentType": "FullTime",
-  "teams": ["Engineering"],
-  "compensation": "$160K – $200K • Offers Equity",
   "description": "<p>Full job description HTML...</p>",
+  "locations": ["Remote - North America"],
+  "department": "Engineering",
+  "companyName": "ashby",
   "postingUrl": "https://jobs.ashbyhq.com/ashby/1c2921b8-f532-434b-bd41-d28a2a820f8a",
+  "applyUrl": "https://jobs.ashbyhq.com/ashby/1c2921b8-f532-434b-bd41-d28a2a820f8a/application",
   "publishedAt": "2025-11-15"
 }
 ```
@@ -127,17 +125,15 @@ Each job posting includes:
 | Field | Type | Description |
 |-------|------|-------------|
 | `id` | string | Unique Ashby job posting ID |
-| `company` | string | Company identifier (from URL) |
+| `type` | string | Employment type (e.g., "Full-time", "Part-time", "Contract") |
 | `title` | string | Job title |
-| `location` | string | Primary location |
-| `locations` | array | All locations (primary + secondary) |
-| `isRemote` | boolean | Whether the job is remote |
-| `employmentType` | string | Employment type (e.g., "FullTime", "PartTime") |
-| `teams` | array | Team/department names |
-| `compensation` | string | Compensation range (if provided) |
 | `description` | string | Full job description (HTML) |
+| `locations` | array | All locations (primary + secondary) |
+| `department` | string | Primary team/department name |
+| `companyName` | string | Company identifier (from URL) |
 | `postingUrl` | string | Direct link to the job posting |
-| `publishedAt` | string | Publication date (YYYY-MM-DD format) |
+| `applyUrl` | string | Direct link to the application page |
+| `publishedAt` | string | Publication date (YYYY-MM-DD format, may be null) |
 
 ## Use Cases
 
