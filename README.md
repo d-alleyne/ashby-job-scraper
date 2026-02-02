@@ -233,6 +233,12 @@ Example costs:
 - Team IDs must be found manually (no public team directory)
 - Published dates may not be available for all jobs
 
+## Related Scrapers
+
+Looking for other ATS platforms? Check out:
+
+- **[Greenhouse Job Scraper](https://apify.com/dalleyne/greenhouse-job-scraper)** - Scrape Greenhouse job boards (Automattic, GitLab, Shopify, etc.) with department filtering
+
 ## Support
 
 - **Issues**: [GitHub Issues](https://github.com/d-alleyne/ashby-job-scraper/issues)
