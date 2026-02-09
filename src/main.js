@@ -38,16 +38,6 @@ async function fetchJobBoard(companyName) {
                         locationName
                     }
                     compensationTierSummary
-                    compensationTiers {
-                        tierSummary
-                        components {
-                            compensationType
-                            currencyCode
-                            minValue
-                            maxValue
-                            interval
-                        }
-                    }
                 }
             }
         }
@@ -205,7 +195,6 @@ function formatJobOutput(briefJob, detailJob, companyName) {
         applyUrl,
         publishedAt: detailJob.publishedDate || null,
         compensationSummary: briefJob.compensationTierSummary || null,
-        compensationTiers: briefJob.compensationTiers || null,
     };
 }
 
