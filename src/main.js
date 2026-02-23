@@ -163,13 +163,55 @@ function normalizeEmploymentType(employmentType) {
 }
 
 /**
+ * Fetch applicant location requirements from the rendered job page's JSON-LD.
+ * Ashby embeds structured data (schema.org JobPosting) in a <script type="application/ld+json"> tag,
+ * which includes applicantLocationRequirements — the actual country-level restrictions
+ * that aren't available via the GraphQL API.
+ *
+ * @param {string} companyName - Company identifier
+ * @param {string} jobId - Job posting ID
+ * @returns {Promise<string[]|null>} Array of country names, or null if not found/unrestricted
+ */
+async function fetchLocationRequirements(companyName, jobId) {
+    try {
+        const url = `https://jobs.ashbyhq.com/${companyName}/${jobId}`;
+        const response = await fetch(url, {
+            headers: { 'Accept': 'text/html' },
+        });
+        if (!response.ok) return null;
+
+        const html = await response.text();
+
+        // Extract JSON-LD script blocks
+        const jsonLdPattern = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+        let match;
+        while ((match = jsonLdPattern.exec(html)) !== null) {
+            try {
+                const data = JSON.parse(match[1]);
+                if (data['@type'] === 'JobPosting' && data.applicantLocationRequirements) {
+                    const reqs = Array.isArray(data.applicantLocationRequirements)
+                        ? data.applicantLocationRequirements
+                        : [data.applicantLocationRequirements];
+                    const countries = reqs
+                        .filter(r => r['@type'] === 'Country' && r.name)
+                        .map(r => r.name);
+                    return countries.length > 0 ? countries : null;
+                }
+            } catch { /* skip malformed JSON-LD */ }
+        }
+    } catch { /* page fetch failed, non-critical */ }
+    return null;
+}
+
+/**
  * Process job posting and return standardized output
  * @param {Object} briefJob - Job brief from initial API call
  * @param {Object} detailJob - Detailed job data from second API call
  * @param {string} companyName - Company identifier
+ * @param {string[]|null} locationRequirements - Country restrictions from JSON-LD
  * @returns {Object} Standardized job object
  */
-function formatJobOutput(briefJob, detailJob, companyName) {
+function formatJobOutput(briefJob, detailJob, companyName, locationRequirements) {
     const postingUrl = `https://jobs.ashbyhq.com/${companyName}/${briefJob.id}`;
     const applyUrl = `${postingUrl}/application`;
     
@@ -189,6 +231,7 @@ function formatJobOutput(briefJob, detailJob, companyName) {
         title: briefJob.title,
         description: detailJob.descriptionHtml || '',
         locations,
+        locationRequirements: locationRequirements || null,
         department: detailJob.teamNames?.[0] || 'Unknown', // Primary team as department
         companyName: companyName,
         postingUrl,
@@ -278,7 +321,8 @@ await Actor.main(async () => {
             for (const briefJob of filteredJobs) {
                 try {
                     const detailJob = await fetchJobDetails(companyName, briefJob.id);
-                    const formattedJob = formatJobOutput(briefJob, detailJob, companyName);
+                    const locationRequirements = await fetchLocationRequirements(companyName, briefJob.id);
+                    const formattedJob = formatJobOutput(briefJob, detailJob, companyName, locationRequirements);
 
                     // Apply date filter
                     if (!isWithinDateRange(formattedJob, daysBack)) {
