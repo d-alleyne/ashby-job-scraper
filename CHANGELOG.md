@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-06-11
+
+### Added
+- `locationRequirements` output field: country-level applicant eligibility extracted from each posting's schema.org JSON-LD (not available via Ashby's GraphQL API)
+- `compensationSummary` output field: Ashby's compensation tier summary where published
+
+### Fixed
+- Removed unsupported `compensationTiers` selection from the GraphQL query
+
+### Changed
+- Documentation overhaul: pricing guide, FAQ, AI agent (MCP) usage section, legality note, corrected license reference (MIT)
+- Store listing refresh: new title (Ashby Job Scraper & API), description, SEO metadata, and Automation category
+
 ## [1.1.3] - 2026-02-01
 
 ### Fixed
