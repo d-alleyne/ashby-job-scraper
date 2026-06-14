@@ -6,7 +6,7 @@
     "urls": {
       "title": "Job Board URLs",
       "type": "array",
-      "description": "Ashby job board URLs to scrape. Add simple URLs or configure per-board filters (teams, maxJobs, daysBack) in the JSON tab.",
+      "description": "Ashby job board URLs to scrape. Each entry can be a plain URL string, or an object with a required `url` plus optional per-board filters (use the JSON tab): `teams` (array of team/department UUID strings to keep, filtered before fetching job details), `maxJobs` (integer cap per board), `daysBack` (integer; only jobs published in the last N days). Example: {\"url\": \"https://jobs.ashbyhq.com/buffer\", \"teams\": [\"2c32d70f-d7cb-4a06-bd87-048084e3eb10\"], \"maxJobs\": 50, \"daysBack\": 14}. See README for how to find team IDs.",
       "editor": "requestListSources",
       "example": [
         {

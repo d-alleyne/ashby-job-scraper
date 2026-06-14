@@ -21,13 +21,13 @@
           "title": "Overview",
           "transformation": {
             "fields": [
-              "company",
+              "companyName",
               "title",
-              "teams",
-              "location",
-              "isRemote",
-              "employmentType",
-              "compensation",
+              "department",
+              "locations",
+              "type",
+              "compensationSummary",
+              "locationRequirements",
               "publishedAt",
               "postingUrl"
             ]
@@ -35,7 +35,7 @@
           "display": {
             "component": "table",
             "properties": {
-              "company": {
+              "companyName": {
                 "label": "Company",
                 "format": "text"
               },
@@ -43,25 +43,25 @@
                 "label": "Job Title",
                 "format": "text"
               },
-              "teams": {
-                "label": "Teams",
-                "format": "array"
-              },
-              "location": {
-                "label": "Location",
+              "department": {
+                "label": "Department",
                 "format": "text"
               },
-              "isRemote": {
-                "label": "Remote",
-                "format": "boolean"
+              "locations": {
+                "label": "Locations",
+                "format": "array"
               },
-              "employmentType": {
+              "type": {
                 "label": "Type",
                 "format": "text"
               },
-              "compensation": {
+              "compensationSummary": {
                 "label": "Compensation",
                 "format": "text"
+              },
+              "locationRequirements": {
+                "label": "Eligible Countries",
+                "format": "array"
               },
               "publishedAt": {
                 "label": "Published",
