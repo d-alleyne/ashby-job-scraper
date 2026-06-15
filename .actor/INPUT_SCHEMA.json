@@ -16,6 +16,12 @@
       "prefill": [
         {
           "url": "https://jobs.ashbyhq.com/buffer"
+        },
+        {
+          "url": "https://jobs.ashbyhq.com/zapier",
+          "teams": ["cbb2c602-5494-4a7b-914c-8ad0a77fdc11"],
+          "maxJobs": 25,
+          "daysBack": 30
         }
       ]
     }
