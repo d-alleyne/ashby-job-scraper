@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2026-06-16
+
+### Fixed
+- `maxJobs` is now applied to stored jobs after the `daysBack` date filter, not as an upfront slice of the board list, so recent jobs beyond the first N are no longer missed when both filters are set.
+- Null/missing posting detail is skipped with a warning instead of crashing the job.
+- `locations` no longer contains null/empty entries (filtered and de-duplicated).
+- Unknown employment types keep their raw value instead of being mislabeled "Full-time".
+- JSON-LD parsing also reads a `JobPosting` nested in an `@graph` array, recovering `locationRequirements` (applicant eligibility) on more postings.
+- `daysBack` excludes undated postings and accepts a stringified value (e.g. `"14"`).
+
+### Changed
+- `publishedAt` normalized to ISO 8601 (UTC).
+- All HTTP requests have a 30-second timeout.
+- The run fails if every board errors and nothing is stored (a legitimately empty filtered result still succeeds).
+
 ## [1.2.0] - 2026-06-11
 
 ### Added

@@ -3,7 +3,7 @@
   "name": "ashby-job-scraper",
   "title": "Ashby Job Scraper & API",
   "description": "Scrape Ashby ATS jobs via API with team filtering. Pull live roles from Buffer, Zapier, RevenueCat and more. Built for job boards and AI agents.",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "license": "MIT",
   "meta": {
     "templateId": "node-basic"
