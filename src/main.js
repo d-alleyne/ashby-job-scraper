@@ -30,8 +30,10 @@ async function fetchWithRetry(url, init = {}, attempts = RETRY_ATTEMPTS) {
             const transient = response.status === 429 || response.status >= 500;
             if (!transient || i === attempts - 1) return response;
             lastError = new Error(`Request failed: ${response.status} ${response.statusText}`);
+            console.warn(`[fetch-retry] attempt=${i + 1}/${attempts} status=${response.status} url=${url}`);
         } catch (err) {
             lastError = err;
+            console.warn(`[fetch-retry] attempt=${i + 1}/${attempts} error=${err.name || 'network'} url=${url}`);
         }
     }
     throw lastError;
