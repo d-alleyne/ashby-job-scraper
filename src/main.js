@@ -2,6 +2,40 @@ import { Actor } from 'apify';
 
 const GQL = 'https://jobs.ashbyhq.com/api/non-user-graphql';
 const FETCH_TIMEOUT_MS = 30_000;
+const RETRY_ATTEMPTS = 3;
+const RETRY_BASE_MS = 500;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * fetch() with retry on transient failures: rate limits (429), server errors (5xx),
+ * and network/timeout errors. Other 4xx are permanent (404 = the board no longer
+ * exists), so they come straight back rather than burning retries on a lost cause.
+ *
+ * Returns the Response whenever one was obtained — including a non-OK one, so the
+ * caller keeps its own `!res.ok` handling. Only a network/timeout error with every
+ * attempt exhausted throws.
+ *
+ * @param {string} url
+ * @param {RequestInit} [init] fetch options; `signal` is always set by this helper
+ * @param {number} [attempts]
+ * @returns {Promise<Response>}
+ */
+async function fetchWithRetry(url, init = {}, attempts = RETRY_ATTEMPTS) {
+    let lastError;
+    for (let i = 0; i < attempts; i++) {
+        if (i > 0) await sleep(RETRY_BASE_MS * 2 ** (i - 1));
+        try {
+            const response = await fetch(url, { ...init, signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
+            const transient = response.status === 429 || response.status >= 500;
+            if (!transient || i === attempts - 1) return response;
+            lastError = new Error(`Request failed: ${response.status} ${response.statusText}`);
+        } catch (err) {
+            lastError = err;
+        }
+    }
+    throw lastError;
+}
 
 /** Extract company identifier from an Ashby job board URL. */
 function extractCompanyName(url) {
@@ -17,11 +51,12 @@ function toIso(s) {
 }
 
 async function gql(op, query, variables) {
-    const response = await fetch(`${GQL}?op=${op}`, {
+    // Safe to retry despite being a POST: these are read-only queries and the body is
+    // a JSON string, so it replays across attempts. Don't reuse this for a mutation.
+    const response = await fetchWithRetry(`${GQL}?op=${op}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ operationName: op, variables, query }),
-        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     });
     if (!response.ok) throw new Error(`${op} request failed: ${response.status} ${response.statusText}`);
     const data = await response.json();
@@ -80,9 +115,8 @@ function countriesFromNode(node) {
  */
 async function fetchLocationRequirements(companyName, jobId) {
     try {
-        const response = await fetch(`https://jobs.ashbyhq.com/${companyName}/${jobId}`, {
+        const response = await fetchWithRetry(`https://jobs.ashbyhq.com/${companyName}/${jobId}`, {
             headers: { Accept: 'text/html' },
-            signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
         });
         if (!response.ok) return null;
         const html = await response.text();
