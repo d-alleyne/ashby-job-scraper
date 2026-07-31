@@ -51,6 +51,8 @@ function toIso(s) {
 }
 
 async function gql(op, query, variables) {
+    // Safe to retry despite being a POST: these are read-only queries and the body is
+    // a JSON string, so it replays across attempts. Don't reuse this for a mutation.
     const response = await fetchWithRetry(`${GQL}?op=${op}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
