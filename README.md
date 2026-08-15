@@ -19,6 +19,8 @@ It also extracts **applicant location requirements** (country-level eligibility)
 - ✅ **95%+ run success rate** - The live stat is visible right on this page
 - ✅ **100% open source (MIT)** - Audit the code on [GitHub](https://github.com/d-alleyne/ashby-job-scraper)
 
+> **Scraping mixed ATS URLs?** [Multi-ATS Job Scraper & API](https://apify.com/dalleyne/ats-job-scraper) processes Ashby, Greenhouse, and Lever together and returns one normalized schema. For Ashby-only workloads, continue with this Actor.
+
 ## Why filtering before storing saves you money
 
 Most scrapers fetch every job on a board and leave the filtering to you. With pay-per-result pricing, you pay for Sales, Operations, and Support listings you never wanted.
@@ -288,6 +290,8 @@ See [CHANGELOG.md](https://github.com/d-alleyne/ashby-job-scraper/blob/main/CHAN
 Looking for other ATS platforms?
 
 - **[Greenhouse Job Scraper & API](https://apify.com/dalleyne/greenhouse-job-scraper)** - Scrape Greenhouse job boards (Automattic, GitLab, Speechify, etc.) with department filtering
+- **[Lever Job Scraper & API](https://apify.com/dalleyne/lever-job-scraper)** - Scrape Lever job boards (Anchorage Digital, Match Group, etc.) with department and team filtering
+- **[Multi-ATS Job Scraper & API](https://apify.com/dalleyne/ats-job-scraper)** - All three platforms in one run, with the ATS auto-detected per URL and a single normalized output schema
 
 ## Found this useful?
 
