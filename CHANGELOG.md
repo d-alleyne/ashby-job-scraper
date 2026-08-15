@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.1] - 2026-08-15
+
+### Fixed
+- Team filters now match postings on nested sub-teams. Postings hang off the child team, so filtering by a parent team (e.g. "Engineering" above "Americas Engineering" and "EMEA Engineering") matched nothing and the run succeeded with zero jobs. `parentTeamId` was already fetched but never used; it is now walked downwards so a parent selects its whole subtree.
+
 ## [1.3.0] - 2026-06-16
 
 ### Fixed

@@ -95,6 +95,42 @@ function shouldIncludeJob(teamId, teamFilters) {
     return teamFilters.includes(teamId);
 }
 
+/**
+ * Expand a team filter to include every team nested beneath it.
+ *
+ * Postings hang off the CHILD team, so on a board with nested teams filtering by
+ * a parent ("Engineering") matches nothing and the run SUCCEEDS with zero jobs.
+ * Walking `parentTeamId` downwards makes a parent select its whole subtree.
+ *
+ * @param {{id: string, parentTeamId: string|null}[]} teams board teams
+ * @param {string[]} teamFilters configured team UUIDs
+ * @returns {string[]} the filters plus all their descendants
+ */
+function expandTeamFilters(teams, teamFilters) {
+    if (!teamFilters || teamFilters.length === 0) return teamFilters;
+
+    const childrenByParent = new Map();
+    for (const team of teams || []) {
+        if (!team?.parentTeamId) continue;
+        if (!childrenByParent.has(team.parentTeamId)) childrenByParent.set(team.parentTeamId, []);
+        childrenByParent.get(team.parentTeamId).push(team.id);
+    }
+
+    // Breadth-first so arbitrarily deep nesting is covered; the `expanded` set
+    // doubles as the visited set, so a cyclic parent chain can't loop forever.
+    const expanded = new Set(teamFilters);
+    const queue = [...teamFilters];
+    while (queue.length > 0) {
+        const current = queue.shift();
+        for (const childId of childrenByParent.get(current) || []) {
+            if (expanded.has(childId)) continue;
+            expanded.add(childId);
+            queue.push(childId);
+        }
+    }
+    return [...expanded];
+}
+
 /** Normalize Ashby employment type; keep the raw value (or null) when unknown. */
 function normalizeEmploymentType(employmentType) {
     const typeMap = { FullTime: 'Full-time', PartTime: 'Part-time', Contract: 'Contract', Internship: 'Internship', Temporary: 'Temporary' };
@@ -201,7 +237,11 @@ await Actor.main(async () => {
         try {
             const jobBoard = await fetchJobBoard(companyName);
             let postings = jobBoard.jobPostings || [];
-            if (teamFilters.length > 0) postings = postings.filter((j) => shouldIncludeJob(j.teamId, teamFilters));
+            const effectiveTeamFilters = expandTeamFilters(jobBoard.teams, teamFilters);
+            if (effectiveTeamFilters.length > teamFilters.length) {
+                console.log(`   ↳ ${effectiveTeamFilters.length - teamFilters.length} nested sub-team(s) included`);
+            }
+            if (teamFilters.length > 0) postings = postings.filter((j) => shouldIncludeJob(j.teamId, effectiveTeamFilters));
 
             // Walk the team-filtered list; apply daysBack first, then cap STORED jobs at maxJobs.
             // (maxJobs must not slice before the date filter, or recent jobs past N are missed.)
